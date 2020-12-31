@@ -1,6 +1,6 @@
 const db = require('../models')
 
-exports.createNote = async function(req, res, next) {
+exports.createNote = async (req, res, next) => {
 	try {
 		let note = await db.Note.create({
 			title: req.body.title,
@@ -18,7 +18,7 @@ exports.createNote = async function(req, res, next) {
 	}
 }
 
-exports.getNote = async function(req, res, next) {
+exports.getNote = async (req, res, next) => {
 	try {
 		let note = await db.Note.find(req.params.note_id)
 		return res.status(200).json(note)
@@ -27,11 +27,19 @@ exports.getNote = async function(req, res, next) {
 	}
 }
 
-exports.deleteNote = async function(req, res, next) {
+exports.deleteNote = async (req, res, next) => {
 	try {
-		let foundNote = await db.Note.findById(req.params.note_id)
-		await foundNote.remove()
+		let foundNote = await db.Note.findByIdAndRemove(req.params.note_id)
 		return res.status(200).json(foundNote)
+	} catch(err) {
+		return next(err)
+	}
+}
+
+exports.updateNote = async (req, res, next) => {
+	try {
+		let note = await db.Note.findByIdAndUpdate(req.params.note_id, req.body)
+		return res.status(200).json(note)
 	} catch(err) {
 		return next(err)
 	}
