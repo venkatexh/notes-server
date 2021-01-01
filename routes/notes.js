@@ -1,9 +1,12 @@
 const express = require('express')
 const router = express.Router({mergeParams: true})
-const { deleteNote, createNote, getNote, updateNote } = require('../handlers/notes')
+const { deleteNote, createNote, getNote, updateNote, getUserNotes } = require('../handlers/notes')
 
 
-router.route('/').post(createNote)
+router
+	.route('/')
+	.post(createNote)
+	.get(getUserNotes)
 
 router
 	.route('/:note_id')

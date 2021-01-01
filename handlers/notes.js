@@ -27,6 +27,15 @@ exports.getNote = async (req, res, next) => {
 	}
 }
 
+exports.getUserNotes = async (req, res, next) => {
+	try {
+		let notes = await db.Note.find({ creator: req.params.id })
+		return res.status(200).json(notes)
+	} catch(err) {
+		return next(err)
+	}
+}
+
 exports.deleteNote = async (req, res, next) => {
 	try {
 		let foundNote = await db.Note.findByIdAndRemove(req.params.note_id)
